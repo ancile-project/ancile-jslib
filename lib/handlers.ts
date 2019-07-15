@@ -1,20 +1,21 @@
 import { AxiosResponse } from "axios";
 import { AncilePolicyException, AncileProgramException } from "./errors";
+import { AncileCallbackFunction } from "./types";
 
-export function handleRequestException(callback: (data: any[] | undefined, error: any) => any): (value: any) => any {
+export function handleRequestException(callback: AncileCallbackFunction): (value: any) => any {
   return (error: any) => {
-      setTimeout(callback(undefined, error), 0)
+      callback(undefined, error);
   }
 }
 
-export function handleAncileResponse(callback: (data: any[] | undefined, error: any) => any): (response: AxiosResponse<any>) => any {
+export function handleAncileResponse(callback: AncileCallbackFunction): (response: AxiosResponse<any>) => any {
   return (response: AxiosResponse) => {
       if (response.data.result === "ok") {
-          setTimeout(callback(response.data.data, undefined), 0);
+          callback(response.data.data, undefined);
       } else if (response.data.traceback.search("Policy") > -1) {
-          throw new AncilePolicyException();
+          callback(undefined, new AncilePolicyException());
       } else {
-          throw new AncileProgramException(response.data.traceback);
+          callback(undefined, new AncileProgramException(response.data.traceback));
       }
   }
 }
