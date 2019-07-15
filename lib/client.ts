@@ -1,4 +1,4 @@
-import Axios, { AxiosResponse } from "axios";
+import Axios from "axios";
 import { handleAncileResponse, handleRequestException } from "./handlers"
 import { AncileCallbackFunction } from "./types";
 
@@ -27,7 +27,7 @@ export class AncileClient {
         this.ancileUrl = ancileUrl;
     }
 
-    public execute(program: string, users: string[], callback: AncileCallbackFunction): void {
+    public execute(program: string, users: string[], callback: AncileCallbackFunction): any {
         let ancileRequest = new AncileRequest(this.purpose, this.token, program, users);
 
         Axios.post(
