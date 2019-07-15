@@ -1,0 +1,25 @@
+{
+  "name": "ancile-jslib",
+  "version": "1.0.0",
+  "description": "Ancile SDK for JS/TS",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/msafadieh/ancile-jslib.git"
+  },
+  "author": "Mohamad Safadieh",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/msafadieh/ancile-jslib/issues"
+  },
+  "homepage": "https://github.com/msafadieh/ancile-jslib#readme",
+  "devDependencies": {
+    "@types/node": "^12.6.2",
+    "requests": "^0.2.2",
+    "typescript": "^3.5.3"
+  }
+}
