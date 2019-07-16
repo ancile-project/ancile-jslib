@@ -1,6 +1,5 @@
 import Axios from "axios";
-import { handleAncileResponse, handleRequestException } from "./handlers"
-import { AncileCallbackFunction } from "./types";
+import { AncilePolicyException, AncileProgramException } from "./errors";
 
 class AncileRequest {
     purpose: string;
@@ -27,14 +26,22 @@ export class AncileClient {
         this.ancileUrl = ancileUrl;
     }
 
-    public execute(program: string, users: string[], callback: AncileCallbackFunction): any {
+    public async execute(program: string, users: string[]) {
         let ancileRequest = new AncileRequest(this.purpose, this.token, program, users);
 
-        Axios.post(
+        let response = await Axios.post(
             this.ancileUrl,
             ancileRequest
         )
-        .catch(handleRequestException(callback))
-        .then(handleAncileResponse(callback));
+
+        if (response.data.result === "ok") {
+            return response.data.data;
+        }
+
+        if (response.data.traceback.search("PolicyError") > -1) {
+            throw new AncilePolicyException();
+        }
+
+        throw new AncileProgramException(response.data.traceback);
     }
 }
