@@ -29,10 +29,7 @@ export class AncileClient {
     public async execute(program: string, users: string[]) {
         let ancileRequest = new AncileRequest(this.purpose, this.token, program, users);
 
-        let response = await Axios.post(
-            this.ancileUrl,
-            ancileRequest
-        )
+        let response = await Axios.post(this.ancileUrl, ancileRequest)
 
         if (response.data.result === "ok") {
             return response.data.data;
